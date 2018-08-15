@@ -7,7 +7,7 @@ userName = "Glael" #your username
 listType = "manga" #"anime" or "manga"
 
 
-page = urllib.request.urlopen('https://myanimelist.net/' + listType + 'list/Glael')
+page = urllib.request.urlopen('https://myanimelist.net/' + listType + 'list/' + userName)
 soup = BeautifulSoup(page.read().decode("utf-8"),  "html.parser")
 
 wow = soup.find_all("a", {"class": "animetitle"})
