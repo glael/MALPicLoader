@@ -2,7 +2,7 @@
 Gets url for anime or manga picture and formats it like this: 
 
 ```css
-#more34611{background-image: url(https://myanimelist.cdn-dena.com/images/anime/12/83498.jpg);}
+#more34611{background-image: url(https://myanimelist.net/images/anime/12/83498.jpg);}
 ```
 
 To use: change userName and listType variables, run using python3
