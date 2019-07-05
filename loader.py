@@ -1,31 +1,31 @@
 #more34611{background-image: url(https://myanimelist.cdn-dena.com/images/anime/12/83498.jpg);}
-
+# update by the magnificent TycoDJ / Project Tyco (weeb REEEEE)
 import urllib.request
 from bs4 import BeautifulSoup
+import json
 
 userName = "Glael" #your username
-listType = "manga" #"anime" or "manga"
+listType = "anime" #"anime" or "manga"
 
+url = 'https://myanimelist.net/' + listType + 'list/' + userName
+header = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 7.0; SM-G930V Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.125 Mobile Safari/537.36'}
 
-page = urllib.request.urlopen('https://myanimelist.net/' + listType + 'list/' + userName)
-soup = BeautifulSoup(page.read().decode("utf-8"),  "html.parser")
+mobileRequest = urllib.request.Request(url, headers=header)
+resp = urllib.request.urlopen(mobileRequest)
+page = resp.read()
 
-wow = soup.find_all("a", {"class": "animetitle"})
+soup = BeautifulSoup(page.decode('utf-8'), 'html.parser')
 
-for i in wow:
-    href = i.get("href")
-    #print(href)
+# the webpage contains all the data as a stringified json object
+dataList = str(soup.find(id="app"))
+dataList = dataList.replace("&quot;", "\"")	# idk this probably can be done with beautifulsoup but this works
+dataList = dataList[16:-17]
 
-    animeNumber = i.get("href").split("/")[2]
-    #print(animeNumber)
+dataList = json.loads(dataList)
 
-    animePageRequest = urllib.request.urlopen('https://myanimelist.net/' + listType + '/' + str(animeNumber))
-    animePageSoup = BeautifulSoup(animePageRequest.read().decode("utf-8"),  "html.parser")
+items = dataList["items"]
 
+for uwu in items:	# in python this just puts the current key (as string) in uwu, still have to call items[uwu] for value
+	owo = items[uwu]	# final sub-dictionary which includes id & image path
 
-    imageUrl = animePageSoup.find("img", {"class": "ac", "itemprop": "image"}).get("src")
-    #print(imageUrl)
-
-    #print("######################################################################################################################################")
-
-    print("#more" + str(animeNumber) + "{background-image: url(" + imageUrl + ");}")
+	print("#more" + str(owo["id"]) + "{background-image: url(https://myanimelist.net" + owo["image"] + ");}")
